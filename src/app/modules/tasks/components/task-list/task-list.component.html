@@ -1,0 +1,102 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <form class="card p-lg-5" [formGroup]="filterBody">
+        <h1 class="card-title mx-auto text-center mb-5">Tasks</h1>
+        <div>
+          <div class="form-group mb-3">
+            <label for="label">Label</label>
+            <input type="text" class="form-control mt-2 w-50" id="label"
+                   placeholder="Label" formControlName="label">
+          </div>
+          <div class="form-group mb-3">
+            <label for="description">Description</label>
+            <input type="text" class="form-control mt-2 w-50" id="description"
+                   placeholder="Description" formControlName="description">
+          </div>
+          <div class="form-group mb-3">
+            <label for="category">Category</label>
+            <input type="text" class="form-control mt-2 w-50" id="category"
+                   placeholder="Category" formControlName="category">
+          </div>
+          <div class="form-group mb-3">
+            <label for="status">Status</label>
+            <select
+              (change)="setStatus($event)"
+              class="form-select"
+              id="status">
+              <option [value]="null" selected>All</option>
+              <option value="false">InProgress</option>
+            </select>
+          </div>
+        </div>
+        <div class="flex">
+          <button class="btn btn-lg btn-success my-5 w-25 me-2" (click)="resetFilter()">Reset</button>
+          <button class="btn btn-lg btn-success my-5 w-25" (click)="getTaskList()">Filter</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+<div id="wrapper">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-lg-2">
+              <div class="dropdown2 float-end">
+                <button type="button" class="btn btn-danger mb-2 me-2"><i
+                  class="mdi mdi-basket me-1"></i>
+                  <a class="text-white"
+                     [routerLink]="'/add'">Add Task</a>
+                </button>
+              </div>
+            </div><!-- end col-->
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-bordered table-centered table-nowrap mb-0">
+              <thead class="table-light">
+              <tr>
+                <th>Label</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th style="width: 125px;">Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr class="align-items-center table-content" *ngFor="let task of taskList">
+                <td>{{task?.label}}</td>
+                <td>{{task?.description}}</td>
+                <td>{{task?.category}}</td>
+                <td>{{task?.done}}</td>
+                <td>
+                  <ul class="list-inline mb-0 pointer">
+                    <li class="list-inline-item " *ngIf="!task?.done" (click)="taskProcessing(task)">
+                      Mark As Done
+                    </li>
+                    <li class="list-inline-item" *ngIf="task?.done" (click)="taskProcessing(task)">
+                      Reject
+                    </li>
+                    <li class="list-inline-item" (click)="navigateTo(task?.id)">
+                      Edit
+                    </li>
+                    <li class="list-inline-item" (click)="deleteTask(task?.id)">
+                      Delete
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
